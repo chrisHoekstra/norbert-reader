@@ -8,10 +8,13 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
+import javax.inject.Inject;
+
 public class AuthenticatedRedditClient extends RedditClient {
 
     private Credentials mCredentials;
 
+    @Inject
     public AuthenticatedRedditClient(UserAgent userAgent, Credentials credentials) {
         super(userAgent);
 
