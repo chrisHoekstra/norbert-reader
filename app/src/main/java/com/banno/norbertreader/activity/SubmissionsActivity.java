@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 import com.banno.norbertreader.NorbertReaderApplication;
 import com.banno.norbertreader.R;
-import com.banno.norbertreader.adapter.SubmissionAdapter;
 import com.banno.norbertreader.loader.FrontPageLoader;
 import com.banno.norbertreader.module.ActivityModule;
 import com.banno.norbertreader.widget.SubmissionsListView;
