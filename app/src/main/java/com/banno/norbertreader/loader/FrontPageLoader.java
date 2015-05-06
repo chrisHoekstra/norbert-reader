@@ -11,14 +11,14 @@ import net.dean.jraw.paginators.SubredditPaginator;
 
 import javax.inject.Inject;
 
-public class SubmissionLoader extends BaseAsyncTaskLoader<Listing<Submission>> {
+public class FrontPageLoader extends BaseAsyncTaskLoader<Listing<Submission>> {
 
     public static final int LOADER_ID = 1;
 
     private AuthenticatedRedditClient mReddit;
 
     @Inject
-    public SubmissionLoader(AuthenticatedRedditClient reddit, Context context) {
+    public FrontPageLoader(AuthenticatedRedditClient reddit, Context context) {
         super(context);
 
         mReddit = reddit;
