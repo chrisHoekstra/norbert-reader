@@ -5,20 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import com.banno.norbertreader.api.RedditApi;
-import com.banno.norbertreader.api.vo.GetResult;
-import com.banno.norbertreader.api.vo.ListingItem;
-
-import java.util.ArrayList;
+import net.dean.jraw.models.Listing;
+import net.dean.jraw.models.Submission;
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.SubredditPaginator;
+import net.dean.jraw.paginators.TimePeriod;
 
 import javax.inject.Inject;
 
 public class ListingsActivity extends ActionBarActivity {
 
-    @Inject RedditApi mRedditApi;
+    @Inject AuthenticatedRedditClient mReddit;
 
     private RecyclerView mSubmissions;
 
@@ -35,34 +33,18 @@ public class ListingsActivity extends ActionBarActivity {
         new ListingRetrievalTask().execute();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_listings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private class ListingRetrievalTask extends AsyncTask<Void, Void, ListingItem> {
+    private class ListingRetrievalTask extends AsyncTask<Void, Void, Listing<Submission>> {
 
         @Override
-        protected ListingItem doInBackground(Void... params) {
+        protected Listing<Submission> doInBackground(Void... params) {
             try {
-                return mRedditApi.getListings();
+                mReddit.authenticate();
+
+                SubredditPaginator frontPage = new SubredditPaginator(mReddit);
+                frontPage.setLimit(50);
+                frontPage.setTimePeriod(TimePeriod.HOUR);
+                frontPage.setSorting(Sorting.TOP);
+                return frontPage.next();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -70,15 +52,10 @@ public class ListingsActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(final ListingItem results) {
+        protected void onPostExecute(final Listing<Submission> results) {
             if (results != null) {
-                mSubmissions.setAdapter(new ListingAdapter(results.getData().getChildren()));
+                mSubmissions.setAdapter(new ListingAdapter(results));
             }
         }
-
-        private ArrayList<GetResult> getHomepageItems(ListingItem results) {
-            return results.getData().getChildren();
-        }
-
     }
 }

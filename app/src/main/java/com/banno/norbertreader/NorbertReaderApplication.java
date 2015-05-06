@@ -14,7 +14,7 @@ public class NorbertReaderApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sObjectGraph = ObjectGraph.create(new NorbertReaderModule());
+        sObjectGraph = ObjectGraph.create(new NorbertReaderModule(this));
     }
 
     public static void inject(Object object) {

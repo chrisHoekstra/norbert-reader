@@ -6,15 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.banno.norbertreader.api.vo.GetResult;
-
-import java.util.List;
+import net.dean.jraw.models.Listing;
+import net.dean.jraw.models.Submission;
 
 public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.SubmissionViewHolder> {
 
-    private final List<GetResult> mListings;
+    private final Listing<Submission> mListings;
 
-    public ListingAdapter(List<GetResult> submissions) {
+    public ListingAdapter(Listing<Submission> submissions) {
         mListings = submissions;
     }
 
@@ -45,8 +44,8 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.Submissi
             mTitle = (TextView) view.findViewById(R.id.title);
         }
 
-        public void setData(GetResult submission) {
-            mTitle.setText(submission.getData().getTitle());
+        public void setData(Submission submission) {
+            mTitle.setText(submission.getTitle());
         }
     }
 }
