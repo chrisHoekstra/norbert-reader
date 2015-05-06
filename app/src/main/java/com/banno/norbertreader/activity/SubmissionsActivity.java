@@ -4,24 +4,21 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.banno.norbertreader.NorbertReaderApplication;
 import com.banno.norbertreader.R;
-import com.banno.norbertreader.adapter.SubmissionAdapter;
 import com.banno.norbertreader.loader.SubmissionLoader;
 import com.banno.norbertreader.module.ActivityModule;
-import com.banno.norbertreader.widget.SimpleDividerItemDecoration;
+import com.banno.norbertreader.widget.SubmissionsListView;
 
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
 
 public class SubmissionsActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Listing<Submission>> {
 
-    private RecyclerView mSubmissions;
+    private SubmissionsListView mSubmissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +27,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
 
         NorbertReaderApplication.inject(this);
 
-        mSubmissions = (RecyclerView) findViewById(R.id.submissions);
-        mSubmissions.addItemDecoration(new SimpleDividerItemDecoration(this));
-        mSubmissions.setLayoutManager(new LinearLayoutManager(this));
+        mSubmissions = (SubmissionsListView) findViewById(R.id.submissions);
 
         getSupportLoaderManager().initLoader(SubmissionLoader.LOADER_ID, null, this);
     }
@@ -64,7 +59,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
 
     @Override
     public void onLoadFinished(Loader<Listing<Submission>> loader, Listing<Submission> data) {
-        mSubmissions.setAdapter(new SubmissionAdapter(data));
+        mSubmissions.setSubmissions(data);
     }
 
     @Override

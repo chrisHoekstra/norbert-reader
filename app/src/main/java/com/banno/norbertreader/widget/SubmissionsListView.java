@@ -5,8 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.banno.norbertreader.SimpleDividerItemDecoration;
-import com.banno.norbertreader.SubmissionAdapter;
+import com.banno.norbertreader.adapter.SubmissionAdapter;
 
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
