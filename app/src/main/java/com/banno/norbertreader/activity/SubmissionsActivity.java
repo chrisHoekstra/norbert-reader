@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.banno.norbertreader.NorbertReaderApplication;
 import com.banno.norbertreader.R;
 import com.banno.norbertreader.adapter.SubmissionAdapter;
-import com.banno.norbertreader.loader.SubmissionLoader;
+import com.banno.norbertreader.loader.FrontPageLoader;
 import com.banno.norbertreader.module.ActivityModule;
 import com.banno.norbertreader.widget.SimpleDividerItemDecoration;
 
@@ -34,7 +34,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
         mSubmissions.addItemDecoration(new SimpleDividerItemDecoration(this));
         mSubmissions.setLayoutManager(new LinearLayoutManager(this));
 
-        getSupportLoaderManager().initLoader(SubmissionLoader.LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(FrontPageLoader.LOADER_ID, null, this);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
         int id = item.getItemId();
 
         if (id == R.id.refresh) {
-            getSupportLoaderManager().restartLoader(SubmissionLoader.LOADER_ID, null, this);
+            getSupportLoaderManager().restartLoader(FrontPageLoader.LOADER_ID, null, this);
             return true;
         }
 
@@ -59,7 +59,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
     @Override
     public Loader<Listing<Submission>> onCreateLoader(int id, Bundle args) {
         return NorbertReaderApplication.withObjectGraph(new ActivityModule(this))
-                .get(SubmissionLoader.class);
+                .get(FrontPageLoader.class);
     }
 
     @Override
