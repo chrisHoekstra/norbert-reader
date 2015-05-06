@@ -3,8 +3,8 @@ package com.banno.norbertreader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import com.banno.norbertreader.widget.SubmissionsListView;
 
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
@@ -16,7 +16,7 @@ public class SubmissionsActivity extends ActionBarActivity {
 
     @Inject AuthenticatedRedditClient mReddit;
 
-    private RecyclerView mSubmissions;
+    private SubmissionsListView mSubmissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +25,7 @@ public class SubmissionsActivity extends ActionBarActivity {
 
         NorbertReaderApplication.inject(this);
 
-        mSubmissions = (RecyclerView) findViewById(R.id.submissions);
-        mSubmissions.addItemDecoration(new SimpleDividerItemDecoration(this));
-        mSubmissions.setLayoutManager(new LinearLayoutManager(this));
+        mSubmissions = (SubmissionsListView) findViewById(R.id.submissions);
 
         new FrontPageRetrievalTask().execute();
     }
@@ -52,7 +50,7 @@ public class SubmissionsActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(final Listing<Submission> results) {
             if (results != null) {
-                mSubmissions.setAdapter(new SubmissionAdapter(results));
+                mSubmissions.setSubmissions(results);
             }
         }
     }
