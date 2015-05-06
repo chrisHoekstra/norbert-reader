@@ -21,4 +21,12 @@ public class NorbertReaderApplication extends Application {
         sObjectGraph.inject(object);
     }
 
+    public static <T> T get(Class<T> objectClass) {
+        return sObjectGraph.get(objectClass);
+    }
+
+    public static ObjectGraph withObjectGraph(Object... additionalModules) {
+        return sObjectGraph.plus(additionalModules);
+    }
+
 }

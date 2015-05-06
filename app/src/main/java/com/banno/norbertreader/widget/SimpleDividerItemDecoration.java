@@ -1,10 +1,12 @@
-package com.banno.norbertreader;
+package com.banno.norbertreader.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.banno.norbertreader.R;
 
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;

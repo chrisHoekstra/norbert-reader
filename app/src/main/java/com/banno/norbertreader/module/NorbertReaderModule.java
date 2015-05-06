@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.banno.norbertreader.AuthenticatedRedditClient;
-import com.banno.norbertreader.SubmissionsActivity;
+import com.banno.norbertreader.activity.SubmissionsActivity;
 
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
@@ -17,7 +17,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(injects = {SubmissionsActivity.class})
+@Module(injects = {SubmissionsActivity.class}, library = true)
 public class NorbertReaderModule {
 
     private static final String KEY_DEVICE_UUID = "keyDeviceUuid";
