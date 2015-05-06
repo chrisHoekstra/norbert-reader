@@ -1,6 +1,7 @@
 package com.banno.norbertreader;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,11 @@ import android.widget.TextView;
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
 
-public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.SubmissionViewHolder> {
+public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder> {
 
     private final Listing<Submission> mListings;
 
-    public ListingAdapter(Listing<Submission> submissions) {
+    public SubmissionAdapter(Listing<Submission> submissions) {
         mListings = submissions;
     }
 
@@ -37,15 +38,28 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.Submissi
     public class SubmissionViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTitle;
+        private TextView mScore;
+        private TextView mAuthor;
+        private TextView mSubreddit;
 
         public SubmissionViewHolder(View view) {
             super(view);
 
             mTitle = (TextView) view.findViewById(R.id.title);
+            mScore = (TextView) view.findViewById(R.id.score);
+            mAuthor = (TextView) view.findViewById(R.id.author);
+            mSubreddit = (TextView) view.findViewById(R.id.subreddit);
         }
 
         public void setData(Submission submission) {
-            mTitle.setText(submission.getTitle());
+            if (submission.isNsfw()) {
+                mTitle.setText(R.string.not_safe_for_presentation);
+            } else {
+                mTitle.setText(Html.fromHtml(submission.getTitle()));
+            }
+            mScore.setText(submission.getScore().toString());
+            mAuthor.setText(submission.getAuthor());
+            mSubreddit.setText(submission.getSubredditName());
         }
     }
 }

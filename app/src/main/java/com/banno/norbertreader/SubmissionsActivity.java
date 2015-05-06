@@ -8,13 +8,11 @@ import android.support.v7.widget.RecyclerView;
 
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
-import net.dean.jraw.paginators.TimePeriod;
 
 import javax.inject.Inject;
 
-public class ListingsActivity extends ActionBarActivity {
+public class SubmissionsActivity extends ActionBarActivity {
 
     @Inject AuthenticatedRedditClient mReddit;
 
@@ -28,12 +26,13 @@ public class ListingsActivity extends ActionBarActivity {
         NorbertReaderApplication.inject(this);
 
         mSubmissions = (RecyclerView) findViewById(R.id.submissions);
+        mSubmissions.addItemDecoration(new SimpleDividerItemDecoration(this));
         mSubmissions.setLayoutManager(new LinearLayoutManager(this));
 
-        new ListingRetrievalTask().execute();
+        new FrontPageRetrievalTask().execute();
     }
 
-    private class ListingRetrievalTask extends AsyncTask<Void, Void, Listing<Submission>> {
+    private class FrontPageRetrievalTask extends AsyncTask<Void, Void, Listing<Submission>> {
 
         @Override
         protected Listing<Submission> doInBackground(Void... params) {
@@ -42,8 +41,7 @@ public class ListingsActivity extends ActionBarActivity {
 
                 SubredditPaginator frontPage = new SubredditPaginator(mReddit);
                 frontPage.setLimit(50);
-                frontPage.setTimePeriod(TimePeriod.HOUR);
-                frontPage.setSorting(Sorting.TOP);
+
                 return frontPage.next();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -54,7 +52,7 @@ public class ListingsActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(final Listing<Submission> results) {
             if (results != null) {
-                mSubmissions.setAdapter(new ListingAdapter(results));
+                mSubmissions.setAdapter(new SubmissionAdapter(results));
             }
         }
     }

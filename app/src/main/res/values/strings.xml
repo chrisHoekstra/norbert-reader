@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Norbert Reader</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="for_string">for</string>
+    <string name="in_string">in</string>
+    <string name="not_safe_for_presentation">*Not safe for presentation*</string>
 </resources>
