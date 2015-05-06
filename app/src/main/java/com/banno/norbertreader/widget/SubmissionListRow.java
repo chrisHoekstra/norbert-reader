@@ -13,6 +13,8 @@ import com.banno.norbertreader.R;
 
 import net.dean.jraw.models.Submission;
 
+import static com.banno.norbertreader.ViewUtil.dipToPixels;
+
 public class SubmissionListRow extends RelativeLayout {
 
     private TextView mTitle;
@@ -47,6 +49,10 @@ public class SubmissionListRow extends RelativeLayout {
 
     private void initialize() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_row, this, true);
+
+        int padding = (int) dipToPixels(getContext(), 10.0f);
+        setPadding(padding, padding, padding, padding);
+        setMinimumHeight((int) dipToPixels(getContext(), 70.0f));
 
         mTitle = (TextView) findViewById(R.id.title);
         mScore = (TextView) findViewById(R.id.score);
