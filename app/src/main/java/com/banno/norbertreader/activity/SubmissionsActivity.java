@@ -33,6 +33,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
         mSubmissions = (RecyclerView) findViewById(R.id.submissions);
         mSubmissions.addItemDecoration(new SimpleDividerItemDecoration(this));
         mSubmissions.setLayoutManager(new LinearLayoutManager(this));
+        mSubmissions.setAdapter(new SubmissionAdapter());
 
         getSupportLoaderManager().initLoader(FrontPageLoader.LOADER_ID, null, this);
     }
@@ -64,7 +65,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
 
     @Override
     public void onLoadFinished(Loader<Listing<Submission>> loader, Listing<Submission> data) {
-        mSubmissions.setAdapter(new SubmissionAdapter(data));
+        ((SubmissionAdapter)mSubmissions.getAdapter()).updateSubmissions(data);
     }
 
     @Override
