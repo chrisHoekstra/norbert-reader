@@ -22,6 +22,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     public void updateSubmissions(Listing<Submission> submissions) {
         mSubmissions = submissions;
+
+        notifyDataSetChanged();
     }
 
     @Override
