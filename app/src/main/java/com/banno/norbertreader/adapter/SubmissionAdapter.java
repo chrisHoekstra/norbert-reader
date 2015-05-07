@@ -12,7 +12,7 @@ import net.dean.jraw.models.Submission;
 public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder> {
 
     public interface OnSubmissionClickedListener {
-        void onSubmissionClicked(Submission submission);
+        void onSubmissionClicked(SubmissionListRow row, Submission submission);
     }
 
     private final Listing<Submission> mListings;
@@ -50,7 +50,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
-                        mListener.onSubmissionClicked(mListings.get(getAdapterPosition()));
+                        mListener.onSubmissionClicked((SubmissionListRow) v, mListings.get(getAdapterPosition()));
                     }
                 }
             });

@@ -1,7 +1,9 @@
 package com.banno.norbertreader.activity;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
@@ -21,10 +23,20 @@ public class SubmissionDetailActivity extends ActionBarActivity {
     private Submission mSubmission;
 
     public static void startActivity(Activity activity, Submission submission) {
+        startActivity(activity, submission, null);
+    }
+
+    public static void startActivity(Activity activity, Submission submission, SubmissionListRow row) {
         Intent intent = new Intent(activity, SubmissionDetailActivity.class);
         intent.putExtra(KEY_SUBMISSION, JrawUtils.toJson(submission.getDataNode()));
 
-        activity.startActivity(intent);
+        if (row != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, row, SubmissionListRow.TRANSITION_NAME);
+
+            activity.startActivity(intent, options.toBundle());
+        } else {
+            activity.startActivity(intent);
+        }
     }
 
     @Override

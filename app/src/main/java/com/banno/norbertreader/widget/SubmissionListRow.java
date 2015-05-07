@@ -20,6 +20,8 @@ import static com.banno.norbertreader.ViewUtil.dipToPixels;
 
 public class SubmissionListRow extends RelativeLayout {
 
+    public static final String TRANSITION_NAME = "submissionListRow";
+
     private TextView mTitle;
     private TextView mScore;
     private TextView mAuthor;
@@ -65,6 +67,10 @@ public class SubmissionListRow extends RelativeLayout {
         setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setTransitionName(TRANSITION_NAME);
+        }
 
         mTitle = (TextView) findViewById(R.id.title);
         mScore = (TextView) findViewById(R.id.score);
