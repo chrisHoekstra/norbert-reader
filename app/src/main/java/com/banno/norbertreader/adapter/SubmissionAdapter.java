@@ -51,7 +51,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     @Override
     public long getItemId(int position) {
-        return RedditUtil.getId(mListings.get(position).getId());
+        return RedditUtil.getId(mSubmissions.get(position).getId());
     }
 
     public class SubmissionViewHolder extends RecyclerView.ViewHolder {
@@ -66,7 +66,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
                 @Override
                 public void onClick(View v) {
                     mSelectedId = getItemId();
-                    mView.setSelected(true);
                     
                     if (mListener != null) {
                         mListener.onSubmissionClicked((SubmissionListRow) v, mSubmissions.get(getAdapterPosition()));
