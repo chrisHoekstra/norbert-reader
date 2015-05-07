@@ -11,10 +11,16 @@ import net.dean.jraw.models.Submission;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder> {
 
-    private final Listing<Submission> mListings;
+    public interface OnSubmissionClickedListener {
+        void onSubmissionClicked(Submission submission);
+    }
 
-    public SubmissionAdapter(Listing<Submission> submissions) {
+    private final Listing<Submission> mListings;
+    private final OnSubmissionClickedListener mListener;
+
+    public SubmissionAdapter(Listing<Submission> submissions, OnSubmissionClickedListener listener) {
         mListings = submissions;
+        mListener = listener;
     }
 
     @Override
@@ -40,6 +46,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
             super(view);
 
             mView = (SubmissionListRow) view;
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onSubmissionClicked(mListings.get(getAdapterPosition()));
+                    }
+                }
+            });
         }
 
         public void setData(Submission submission) {

@@ -4,11 +4,12 @@ import android.app.Activity;
 
 import com.banno.norbertreader.AuthenticatedRedditClient;
 import com.banno.norbertreader.loader.FrontPageLoader;
+import com.banno.norbertreader.loader.SubmissionLoader;
 
 import dagger.Module;
 import dagger.Provides;
 
-@Module(injects = {FrontPageLoader.class}, complete = false)
+@Module(injects = {FrontPageLoader.class, SubmissionLoader.class}, complete = false)
 public class ActivityModule {
 
     private final Activity mActivity;
@@ -18,7 +19,12 @@ public class ActivityModule {
     }
 
     @Provides
-    public FrontPageLoader getSubmissionLoader(AuthenticatedRedditClient reddit) {
+    public FrontPageLoader getFrontPageLoader(AuthenticatedRedditClient reddit) {
         return new FrontPageLoader(reddit, mActivity);
+    }
+
+    @Provides
+    public SubmissionLoader getSubmissionLoader(AuthenticatedRedditClient reddit) {
+        return new SubmissionLoader(reddit, mActivity);
     }
 }

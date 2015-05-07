@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.banno.norbertreader.NorbertReaderApplication;
 import com.banno.norbertreader.R;
+import com.banno.norbertreader.adapter.SubmissionAdapter;
 import com.banno.norbertreader.loader.FrontPageLoader;
 import com.banno.norbertreader.module.ActivityModule;
 import com.banno.norbertreader.widget.SubmissionsListView;
@@ -28,8 +29,18 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
         NorbertReaderApplication.inject(this);
 
         mSubmissions = (SubmissionsListView) findViewById(R.id.submissions);
+        mSubmissions.setOnSubmissionClicked(new SubmissionAdapter.OnSubmissionClickedListener() {
+            @Override
+            public void onSubmissionClicked(Submission submission) {
+                startSubmissionDetail(submission);
+            }
+        });
 
         getSupportLoaderManager().initLoader(FrontPageLoader.LOADER_ID, null, this);
+    }
+
+    private void startSubmissionDetail(Submission submission) {
+        SubmissionDetailActivity.startActivity(this, submission);
     }
 
     @Override
@@ -49,7 +60,6 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public Loader<Listing<Submission>> onCreateLoader(int id, Bundle args) {

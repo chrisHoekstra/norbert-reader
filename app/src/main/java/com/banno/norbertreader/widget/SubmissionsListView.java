@@ -11,6 +11,9 @@ import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
 
 public class SubmissionsListView extends RecyclerView {
+
+    private SubmissionAdapter.OnSubmissionClickedListener mListener;
+
     public SubmissionsListView(Context context) {
         super(context);
 
@@ -34,7 +37,11 @@ public class SubmissionsListView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
+    public void setOnSubmissionClicked(SubmissionAdapter.OnSubmissionClickedListener listener) {
+        mListener = listener;
+    }
+
     public void setSubmissions(Listing<Submission> submissions) {
-        setAdapter(new SubmissionAdapter(submissions));
+        setAdapter(new SubmissionAdapter(submissions, mListener));
     }
 }
