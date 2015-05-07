@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.banno.norbertreader.RedditUtil;
 import com.banno.norbertreader.widget.SubmissionListRow;
 
 import net.dean.jraw.models.Listing;
@@ -17,8 +18,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     private final Listing<Submission> mListings;
     private final OnSubmissionClickedListener mListener;
+    private long mSelectedId;
 
     public SubmissionAdapter(Listing<Submission> submissions, OnSubmissionClickedListener listener) {
+        setHasStableIds(true);
+
         mListings = submissions;
         mListener = listener;
     }
@@ -38,6 +42,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
         return mListings.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return RedditUtil.getId(mListings.get(position).getId());
+    }
+
     public class SubmissionViewHolder extends RecyclerView.ViewHolder {
 
         private SubmissionListRow mView;
@@ -50,13 +59,20 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
+                        mSelectedId = getItemId();
+                        mView.setSelected(true);
+
                         mListener.onSubmissionClicked((SubmissionListRow) v, mListings.get(getAdapterPosition()));
+
+                        notifyDataSetChanged();
                     }
                 }
             });
         }
 
         public void setData(Submission submission) {
+            mView.setSelected(getItemId() == mSelectedId);
+
             mView.setSubmission(submission);
         }
     }

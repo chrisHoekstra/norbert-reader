@@ -63,7 +63,6 @@ public class SubmissionListRow extends RelativeLayout {
         setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        setClickable(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setTransitionName(TRANSITION_NAME);
