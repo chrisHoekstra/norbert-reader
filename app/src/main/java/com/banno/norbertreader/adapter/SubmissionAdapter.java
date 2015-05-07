@@ -16,14 +16,21 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
         void onSubmissionClicked(SubmissionListRow row, Submission submission);
     }
 
-    private final Listing<Submission> mListings;
-    private final OnSubmissionClickedListener mListener;
+    private Listing<Submission> mSubmissions;
+    private OnSubmissionClickedListener mListener;
     private long mSelectedId;
 
-    public SubmissionAdapter(Listing<Submission> submissions, OnSubmissionClickedListener listener) {
-        setHasStableIds(true);
+    public SubmissionAdapter() {
+        mSubmissions = new Listing<>(Submission.class);
+    }
 
-        mListings = submissions;
+    public void updateSubmissions(Listing<Submission> submissions) {
+        mSubmissions = submissions;
+
+        notifyDataSetChanged();
+    }
+    
+    public void setOnSubmissionClickedListener(OnSubmissionClickedListener listener) {
         mListener = listener;
     }
 
@@ -34,12 +41,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     @Override
     public void onBindViewHolder(SubmissionViewHolder submissionViewHolder, int i) {
-        submissionViewHolder.setData(mListings.get(i));
+        submissionViewHolder.setData(mSubmissions.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return mListings.size();
+        return mSubmissions.size();
     }
 
     @Override
@@ -58,14 +65,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mSelectedId = getItemId();
+                    mView.setSelected(true);
+                    
                     if (mListener != null) {
-                        mSelectedId = getItemId();
-                        mView.setSelected(true);
-
-                        mListener.onSubmissionClicked((SubmissionListRow) v, mListings.get(getAdapterPosition()));
-
-                        notifyDataSetChanged();
+                        mListener.onSubmissionClicked((SubmissionListRow) v, mSubmissions.get(getAdapterPosition()));
                     }
+
+                    notifyDataSetChanged();
                 }
             });
         }
