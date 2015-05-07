@@ -2,10 +2,13 @@ package com.banno.norbertreader.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,9 +53,19 @@ public class SubmissionListRow extends RelativeLayout {
     private void initialize() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_row, this, true);
 
+        int[] attrsArray = new int[]{android.R.attr.selectableItemBackground};
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrsArray);
+        Drawable selectableItemBackground = typedArray.getDrawable(0);
+        typedArray.recycle();
+
         int padding = (int) dipToPixels(getContext(), 10.0f);
         setPadding(padding, padding, padding, padding);
         setMinimumHeight((int) dipToPixels(getContext(), 70.0f));
+        setBackground(selectableItemBackground);
+        setClickable(true);
+        setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         mTitle = (TextView) findViewById(R.id.title);
         mScore = (TextView) findViewById(R.id.score);
