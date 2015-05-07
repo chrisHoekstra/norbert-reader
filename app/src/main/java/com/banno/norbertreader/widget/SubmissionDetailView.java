@@ -56,10 +56,16 @@ public class SubmissionDetailView extends FrameLayout {
     }
 
     public void setSubmission(Submission submission) {
+        clear();
+
         if (submission.isNsfw()) {
             mWebView.loadUrl("http://i.imgur.com/kgfV66r.gif");
         } else {
             mWebView.loadUrl(submission.getUrl());
         }
+    }
+
+    private void clear() {
+        mWebView.loadUrl("about:blank");
     }
 }

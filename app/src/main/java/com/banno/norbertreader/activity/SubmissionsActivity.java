@@ -12,6 +12,7 @@ import com.banno.norbertreader.R;
 import com.banno.norbertreader.adapter.SubmissionAdapter;
 import com.banno.norbertreader.loader.FrontPageLoader;
 import com.banno.norbertreader.module.ActivityModule;
+import com.banno.norbertreader.widget.SubmissionDetailView;
 import com.banno.norbertreader.widget.SubmissionListRow;
 import com.banno.norbertreader.widget.SubmissionsListView;
 
@@ -21,6 +22,7 @@ import net.dean.jraw.models.Submission;
 public class SubmissionsActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Listing<Submission>> {
 
     private SubmissionsListView mSubmissions;
+    private SubmissionDetailView mDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
 
         NorbertReaderApplication.inject(this);
 
+        mDetail = (SubmissionDetailView) findViewById(R.id.detail);
         mSubmissions = (SubmissionsListView) findViewById(R.id.submissions);
         mSubmissions.setOnSubmissionClicked(new SubmissionAdapter.OnSubmissionClickedListener() {
             @Override
@@ -41,7 +44,11 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
     }
 
     private void startSubmissionDetail(SubmissionListRow row, Submission submission) {
-        SubmissionDetailActivity.startActivity(this, submission, row);
+        if (mDetail == null) {
+            SubmissionDetailActivity.startActivity(this, submission, row);
+        } else {
+            mDetail.setSubmission(submission);
+        }
     }
 
     @Override
