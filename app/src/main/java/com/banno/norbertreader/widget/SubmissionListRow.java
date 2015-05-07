@@ -55,18 +55,22 @@ public class SubmissionListRow extends RelativeLayout {
     private void initialize() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_row, this, true);
 
-        int[] attrsArray = new int[]{android.R.attr.selectableItemBackground};
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrsArray);
-        Drawable selectableItemBackground = typedArray.getDrawable(0);
-        typedArray.recycle();
+        if (getBackground() == null) {
+            int[] attrsArray = new int[]{android.R.attr.selectableItemBackground};
+            TypedArray typedArray = getContext().obtainStyledAttributes(attrsArray);
+            Drawable selectableItemBackground = typedArray.getDrawable(0);
+            typedArray.recycle();
+
+            setBackground(selectableItemBackground);
+        }
 
         int padding = (int) dipToPixels(getContext(), 10.0f);
         setPadding(padding, padding, padding, padding);
         setMinimumHeight((int) dipToPixels(getContext(), 70.0f));
-        setBackground(selectableItemBackground);
         setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+        setClickable(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setTransitionName(TRANSITION_NAME);
