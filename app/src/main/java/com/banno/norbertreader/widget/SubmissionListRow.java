@@ -2,8 +2,6 @@ package com.banno.norbertreader.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -56,12 +54,7 @@ public class SubmissionListRow extends RelativeLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_row, this, true);
 
         if (getBackground() == null) {
-            int[] attrsArray = new int[]{android.R.attr.selectableItemBackground};
-            TypedArray typedArray = getContext().obtainStyledAttributes(attrsArray);
-            Drawable selectableItemBackground = typedArray.getDrawable(0);
-            typedArray.recycle();
-
-            setBackground(selectableItemBackground);
+            setBackgroundResource(R.drawable.list_row_background);
         }
 
         int padding = (int) dipToPixels(getContext(), 10.0f);
