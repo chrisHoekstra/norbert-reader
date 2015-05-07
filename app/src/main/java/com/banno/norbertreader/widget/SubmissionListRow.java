@@ -62,7 +62,6 @@ public class SubmissionListRow extends RelativeLayout {
         setPadding(padding, padding, padding, padding);
         setMinimumHeight((int) dipToPixels(getContext(), 70.0f));
         setBackground(selectableItemBackground);
-        setClickable(true);
         setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));

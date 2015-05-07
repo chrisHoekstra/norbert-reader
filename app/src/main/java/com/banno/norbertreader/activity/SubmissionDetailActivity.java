@@ -20,7 +20,7 @@ public class SubmissionDetailActivity extends ActionBarActivity {
 
     public static void startActivity(Activity activity, Submission submission) {
         Intent intent = new Intent(activity, SubmissionDetailActivity.class);
-        intent.putExtra(KEY_SUBMISSION, JrawUtils.toJson(submission));
+        intent.putExtra(KEY_SUBMISSION, JrawUtils.toJson(submission.getDataNode()));
 
         activity.startActivity(intent);
     }
@@ -40,7 +40,7 @@ public class SubmissionDetailActivity extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(KEY_SUBMISSION, JrawUtils.toJson(mSubmission));
+        outState.putString(KEY_SUBMISSION, JrawUtils.toJson(mSubmission.getDataNode()));
     }
 
     private void getBundleExtras(Bundle bundle) {
