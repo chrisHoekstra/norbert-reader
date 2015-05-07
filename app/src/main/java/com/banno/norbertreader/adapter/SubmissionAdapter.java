@@ -59,7 +59,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
-                        mListener.onSubmissionClicked(mListings.get(getAdapterPosition()));
+                        mListener.onSubmissionClicked(mSubmissions.get(getAdapterPosition()));
                     }
                 }
             });
