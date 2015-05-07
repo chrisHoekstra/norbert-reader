@@ -15,11 +15,20 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
         void onSubmissionClicked(Submission submission);
     }
 
-    private final Listing<Submission> mListings;
-    private final OnSubmissionClickedListener mListener;
+    private Listing<Submission> mSubmissions;
+    private OnSubmissionClickedListener mListener;
 
-    public SubmissionAdapter(Listing<Submission> submissions, OnSubmissionClickedListener listener) {
-        mListings = submissions;
+    public SubmissionAdapter() {
+        mSubmissions = new Listing<>(Submission.class);
+    }
+
+    public void updateSubmissions(Listing<Submission> submissions) {
+        mSubmissions = submissions;
+
+        notifyDataSetChanged();
+    }
+    
+    public void setOnSubmissionClickedListener(OnSubmissionClickedListener listener) {
         mListener = listener;
     }
 
@@ -30,12 +39,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     @Override
     public void onBindViewHolder(SubmissionViewHolder submissionViewHolder, int i) {
-        submissionViewHolder.setData(mListings.get(i));
+        submissionViewHolder.setData(mSubmissions.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return mListings.size();
+        return mSubmissions.size();
     }
 
     public class SubmissionViewHolder extends RecyclerView.ViewHolder {
