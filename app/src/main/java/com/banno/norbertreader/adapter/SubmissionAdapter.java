@@ -18,10 +18,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     private Listing<Submission> mSubmissions;
     private OnSubmissionClickedListener mListener;
-    private long mSelectedId;
+    private long mSelectedId = -1;
 
     public SubmissionAdapter() {
         mSubmissions = new Listing<>(Submission.class);
+        setHasStableIds(true);
     }
 
     public void updateSubmissions(Listing<Submission> submissions) {
