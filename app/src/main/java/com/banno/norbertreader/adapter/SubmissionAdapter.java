@@ -35,6 +35,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
         mListener = listener;
     }
 
+    public long getSelectedId() {
+        return mSelectedId;
+    }
+
+    public void setSelectedId(long selectedId) {
+        mSelectedId = selectedId;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new SubmissionViewHolder(new SubmissionListRow(viewGroup.getContext()));
