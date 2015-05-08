@@ -2,6 +2,7 @@ package com.banno.norbertreader.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -33,38 +34,47 @@ public class SubmissionListRow extends RelativeLayout {
     private TextView mAuthor;
     private TextView mSubreddit;
     private boolean mIsRead = false;
+    private boolean mShowReadState = true;
 
     @Inject RedditUtil mRedditUtil;
 
     public SubmissionListRow(Context context) {
         super(context);
 
-        initialize();
+        initialize(null);
     }
 
     public SubmissionListRow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        initialize();
+        initialize(attrs);
     }
 
     public SubmissionListRow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        initialize();
+        initialize(attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SubmissionListRow(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        initialize();
+        initialize(attrs);
     }
 
-    private void initialize() {
+    private void initialize(AttributeSet attrs) {
         NorbertReaderApplication.inject(this);
 
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_row, this, true);
+
+        if (attrs != null) {
+            TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.SubmissionListRow);
+            mShowReadState = attributes.getBoolean(R.styleable.SubmissionListRow_show_read_state, true);
+            attributes.recycle();
+        } else {
+            mShowReadState = true;
+        }
 
         if (getBackground() == null) {
             setBackgroundResource(R.drawable.list_row_background);
@@ -105,7 +115,7 @@ public class SubmissionListRow extends RelativeLayout {
     public int[] onCreateDrawableState(int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
 
-        if (mIsRead) {
+        if (mIsRead && mShowReadState) {
             mergeDrawableStates(drawableState, STATE_IS_READ);
         }
 

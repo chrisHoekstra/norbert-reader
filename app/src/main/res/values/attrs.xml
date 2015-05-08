@@ -6,6 +6,7 @@
     </declare-styleable>
 
     <declare-styleable name="SubmissionListRow">
+        <attr name="show_read_state" format="boolean"/>
         <attr name="state_is_read" format="boolean"/>
     </declare-styleable>
 
