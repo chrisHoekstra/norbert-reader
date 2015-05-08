@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.banno.norbertreader.NorbertReaderApplication;
 import com.banno.norbertreader.R;
+import com.banno.norbertreader.RedditUtil;
 
 import net.dean.jraw.models.Submission;
+
+import javax.inject.Inject;
 
 import static com.banno.norbertreader.ViewUtil.dipToPixels;
 
@@ -20,10 +24,17 @@ public class SubmissionListRow extends RelativeLayout {
 
     public static final String TRANSITION_NAME = "submissionListRow";
 
+    private static final int[] STATE_IS_READ = {
+            R.attr.state_is_read
+    };
+
     private TextView mTitle;
     private TextView mScore;
     private TextView mAuthor;
     private TextView mSubreddit;
+    private boolean mIsRead = false;
+
+    @Inject RedditUtil mRedditUtil;
 
     public SubmissionListRow(Context context) {
         super(context);
@@ -51,6 +62,8 @@ public class SubmissionListRow extends RelativeLayout {
     }
 
     private void initialize() {
+        NorbertReaderApplication.inject(this);
+
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_row, this, true);
 
         if (getBackground() == null) {
@@ -83,5 +96,19 @@ public class SubmissionListRow extends RelativeLayout {
         mScore.setText(submission.getScore().toString());
         mAuthor.setText(submission.getAuthor());
         mSubreddit.setText(submission.getSubredditName());
+        mIsRead = mRedditUtil.isRead(submission);
+
+        refreshDrawableState();
+    }
+
+    @Override
+    public int[] onCreateDrawableState(int extraSpace) {
+        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+
+        if (mIsRead) {
+            mergeDrawableStates(drawableState, STATE_IS_READ);
+        }
+
+        return drawableState;
     }
 }

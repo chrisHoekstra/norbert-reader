@@ -116,9 +116,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
                 @Override
                 public void onClick(View v) {
                     mSelectedId = getItemId();
+
+                    Submission submission = mSubmissions.get(getAdapterPosition());
+
+                    mRedditUtil.markAsRead(submission);
                     
                     if (mListener != null) {
-                        mListener.onSubmissionClicked(mSubmissions.get(getAdapterPosition()));
+                        mListener.onSubmissionClicked(submission);
                     }
 
                     notifyDataSetChanged();
