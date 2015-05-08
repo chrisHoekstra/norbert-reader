@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.banno.norbertreader.AuthenticatedRedditClient;
+import com.banno.norbertreader.RedditUtil;
 import com.banno.norbertreader.activity.SubmissionsActivity;
+import com.banno.norbertreader.adapter.SubmissionAdapter;
 
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
@@ -17,7 +19,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(injects = {SubmissionsActivity.class}, library = true)
+@Module(injects = {SubmissionsActivity.class, SubmissionAdapter.class}, library = true)
 public class NorbertReaderModule {
 
     private static final String KEY_DEVICE_UUID = "keyDeviceUuid";
@@ -47,6 +49,12 @@ public class NorbertReaderModule {
     @Provides
     public UserAgent provideUserAgent() {
         return UserAgent.of("android", "com.banno.norbertreader", "0.1", "xXx_smaug_xXx");
+    }
+
+    @Provides
+    @Singleton
+    public RedditUtil provideRedditUtil() {
+        return new RedditUtil();
     }
 
     private UUID getUuid(SharedPreferences sharedPreferences) {
