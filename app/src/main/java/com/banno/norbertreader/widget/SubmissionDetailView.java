@@ -2,6 +2,7 @@ package com.banno.norbertreader.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -19,34 +20,43 @@ public class SubmissionDetailView extends LinearLayout {
 
     private SubmissionListRow mHeader;
     private WebView mWebView;
+    private boolean mShowHeader;
 
     public SubmissionDetailView(Context context) {
         super(context);
 
-        initialize();
+        initialize(null);
     }
 
     public SubmissionDetailView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        initialize();
+        initialize(attrs);
     }
 
     public SubmissionDetailView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        initialize();
+        initialize(attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SubmissionDetailView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        initialize();
+        initialize(attrs);
     }
 
-    private void initialize() {
+    private void initialize(AttributeSet attrs) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_detail, this, true);
+
+        if (attrs != null) {
+            TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.SubmissionDetailView);
+            mShowHeader = attributes.getBoolean(R.styleable.SubmissionDetailView_showHeader, true);
+            attributes.recycle();
+        } else {
+            mShowHeader = true;
+        }
 
         setOrientation(VERTICAL);
 
@@ -72,7 +82,10 @@ public class SubmissionDetailView extends LinearLayout {
         }
 
         mHeader.setSubmission(submission);
-        mHeader.setVisibility(VISIBLE);
+
+        if (mShowHeader) {
+            mHeader.setVisibility(VISIBLE);
+        }
     }
 
     private void clear() {
