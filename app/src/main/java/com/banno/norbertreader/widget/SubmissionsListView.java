@@ -47,6 +47,10 @@ public class SubmissionsListView extends RecyclerView {
         ((SubmissionAdapter) getAdapter()).updateSubmissions(submissions);
     }
 
+    public void clearSelected() {
+        ((SubmissionAdapter) getAdapter()).clearSelectedId();
+    }
+
     @Override
     protected Parcelable onSaveInstanceState() {
         SavedState savedState = new SavedState(super.onSaveInstanceState());

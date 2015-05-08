@@ -45,6 +45,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
         notifyDataSetChanged();
     }
 
+    public void clearSelectedId() {
+        mSelectedId = -1;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new SubmissionViewHolder(new SubmissionListRow(viewGroup.getContext()));

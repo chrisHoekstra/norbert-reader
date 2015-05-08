@@ -44,6 +44,8 @@ public class SubmissionsActivity extends ActionBarActivity implements LoaderMana
 
     private void startSubmissionDetail(Submission submission) {
         if (mDetail == null) {
+            mSubmissions.clearSelected();
+
             SubmissionDetailActivity.startActivity(this, submission);
         } else {
             mDetail.setSubmission(submission);
