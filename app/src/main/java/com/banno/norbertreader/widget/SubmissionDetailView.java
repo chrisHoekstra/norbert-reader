@@ -58,6 +58,8 @@ public class SubmissionDetailView extends LinearLayout {
         webSettings.setJavaScriptEnabled(true);
 
         mHeader = (SubmissionListRow) findViewById(R.id.header);
+
+        clear();
     }
 
     public void setSubmission(Submission submission) {
@@ -70,9 +72,11 @@ public class SubmissionDetailView extends LinearLayout {
         }
 
         mHeader.setSubmission(submission);
+        mHeader.setVisibility(VISIBLE);
     }
 
     private void clear() {
         mWebView.loadUrl("about:blank");
+        mHeader.setVisibility(GONE);
     }
 }
