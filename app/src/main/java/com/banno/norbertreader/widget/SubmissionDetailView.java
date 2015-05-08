@@ -9,14 +9,15 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.banno.norbertreader.R;
 
 import net.dean.jraw.models.Submission;
 
-public class SubmissionDetailView extends FrameLayout {
+public class SubmissionDetailView extends LinearLayout {
 
+    private SubmissionListRow mHeader;
     private WebView mWebView;
 
     public SubmissionDetailView(Context context) {
@@ -47,12 +48,16 @@ public class SubmissionDetailView extends FrameLayout {
     private void initialize() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_submission_detail, this, true);
 
+        setOrientation(VERTICAL);
+
         mWebView = (WebView) findViewById(R.id.webview);
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptEnabled(true);
+
+        mHeader = (SubmissionListRow) findViewById(R.id.header);
     }
 
     public void setSubmission(Submission submission) {
@@ -61,5 +66,7 @@ public class SubmissionDetailView extends FrameLayout {
         } else {
             mWebView.loadUrl(submission.getUrl());
         }
+
+        mHeader.setSubmission(submission);
     }
 }
