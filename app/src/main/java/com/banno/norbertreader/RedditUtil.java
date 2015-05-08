@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class RedditUtil {
 
-    private static Map<String, Long> sSubmissionIds = new HashMap<>();
-    private static long sCurrentSubmissionId = 1;
+    private Map<String, Long> sSubmissionIds = new HashMap<>();
+    private long sCurrentSubmissionId = 1;
 
-    public static long getId(String submissionId) {
+    public long getId(String submissionId) {
         Long id = sSubmissionIds.get(submissionId);
 
         if (id == null) {

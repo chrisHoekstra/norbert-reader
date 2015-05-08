@@ -4,11 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.banno.norbertreader.NorbertReaderApplication;
 import com.banno.norbertreader.RedditUtil;
 import com.banno.norbertreader.widget.SubmissionListRow;
 
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
+
+import javax.inject.Inject;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder> {
 
@@ -20,7 +23,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
     private OnSubmissionClickedListener mListener;
     private long mSelectedId = -1;
 
+    @Inject RedditUtil mRedditUtil;
+
     public SubmissionAdapter() {
+        NorbertReaderApplication.inject(this);
+
         mSubmissions = new Listing<>(Submission.class);
         setHasStableIds(true);
     }
@@ -52,7 +59,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     @Override
     public long getItemId(int position) {
-        return RedditUtil.getId(mSubmissions.get(position).getId());
+        return mRedditUtil.getId(mSubmissions.get(position).getId());
     }
 
     public class SubmissionViewHolder extends RecyclerView.ViewHolder {
