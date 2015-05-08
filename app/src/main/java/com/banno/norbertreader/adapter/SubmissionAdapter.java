@@ -12,27 +12,38 @@ import net.dean.jraw.models.Submission;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.SubmissionViewHolder> {
 
+    private static final long NO_SELECTION = -1;
+
     public interface OnSubmissionClickedListener {
         void onSubmissionClicked(Submission submission);
     }
 
     private Listing<Submission> mSubmissions;
     private OnSubmissionClickedListener mListener;
-    private long mSelectedId = -1;
+    private long mSelectedId = NO_SELECTION;
 
     public SubmissionAdapter() {
         mSubmissions = new Listing<>(Submission.class);
         setHasStableIds(true);
     }
 
+    private void notifyOfSelectedSubmission() {
+        if (mSelectedId != NO_SELECTION && mListener != null) {
+            mListener.onSubmissionClicked(getSubmission(mSelectedId));
+        }
+    }
+
     public void updateSubmissions(Listing<Submission> submissions) {
         mSubmissions = submissions;
 
         notifyDataSetChanged();
+        notifyOfSelectedSubmission();
     }
     
     public void setOnSubmissionClickedListener(OnSubmissionClickedListener listener) {
         mListener = listener;
+
+        notifyOfSelectedSubmission();
     }
 
     public long getSelectedId() {
@@ -43,12 +54,23 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
         mSelectedId = selectedId;
 
         notifyDataSetChanged();
+        notifyOfSelectedSubmission();
     }
 
     public void clearSelectedId() {
-        mSelectedId = -1;
+        mSelectedId = NO_SELECTION;
 
         notifyDataSetChanged();
+    }
+
+    public Submission getSubmission(long id) {
+        for (Submission submission : mSubmissions) {
+            if (id == getItemId(submission)) {
+                return submission;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -68,7 +90,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 
     @Override
     public long getItemId(int position) {
-        return RedditUtil.getId(mSubmissions.get(position).getId());
+        return getItemId(mSubmissions.get(position));
+    }
+
+    public long getItemId(Submission submission) {
+        return RedditUtil.getId(submission.getId());
     }
 
     public class SubmissionViewHolder extends RecyclerView.ViewHolder {

@@ -18,6 +18,7 @@ import net.dean.jraw.models.Submission;
 public class SubmissionDetailView extends FrameLayout {
 
     private WebView mWebView;
+    private Submission mSubmission;
 
     public SubmissionDetailView(Context context) {
         super(context);
@@ -56,6 +57,12 @@ public class SubmissionDetailView extends FrameLayout {
     }
 
     public void setSubmission(Submission submission) {
+        if (mSubmission == submission) {
+            return;
+        }
+
+        mSubmission = submission;
+
         clear();
 
         if (submission.isNsfw()) {
